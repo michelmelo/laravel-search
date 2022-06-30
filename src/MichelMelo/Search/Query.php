@@ -5,6 +5,8 @@ namespace MichelMelo\Search;
 use App;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Input;
+use Illuminate\Support\Arr;
+
 
 class Query
 {
@@ -138,10 +140,10 @@ class Query
         $this->query = $this->index->addConditionToQuery($this->query, [
             'field'      => $field,
             'value'      => $value,
-            'required'   => array_get($options, 'required', true),
-            'prohibited' => array_get($options, 'prohibited', false),
-            'phrase'     => array_get($options, 'phrase', false),
-            'fuzzy'      => array_get($options, 'fuzzy', null),
+            'required'   => Arr::get($options, 'required', true),
+            'prohibited' => Arr::get($options, 'prohibited', false),
+            'phrase'     => Arr::get($options, 'phrase', false),
+            'fuzzy'      => Arr::get($options, 'fuzzy', null),
         ]);
 
         return $this;
@@ -214,7 +216,7 @@ class Query
         $results       = $this->get();
 
         foreach ($results as $result) {
-            $this->index->delete(array_get($result, 'id'));
+            $this->index->delete(Arr::get($result, 'id'));
         }
     }
 
