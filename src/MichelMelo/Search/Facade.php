@@ -1,14 +1,13 @@
 <?php
 
-namespace MichelMelo\LaravelSearch;
+namespace MichelMelo\Search;
 
-/**
- * Class Facade.
- */
 class Facade extends \Illuminate\Support\Facades\Facade
 {
     /**
-     * @inheritDoc
+     * Get the registered name of the component.
+     *
+     * @return string
      */
     protected static function getFacadeAccessor()
     {
