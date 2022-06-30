@@ -3,6 +3,7 @@
 namespace MichelMelo\Search\Index;
 
 use Config;
+use Illuminate\Support\Arr;
 
 class Zend extends \MichelMelo\Search\Index
 {
@@ -107,12 +108,12 @@ class Zend extends \MichelMelo\Search\Index
      */
     public function addConditionToQuery($query, array $condition)
     {
-        if (array_get($condition, 'lat')) {
+        if (Arr::get($condition, 'lat')) {
             return $query;
         }
 
-        $value = trim($this->escape(array_get($condition, 'value')));
-        if (array_get($condition, 'phrase') || array_get($condition, 'filter')) {
+        $value = trim($this->escape(Arr::get($condition, 'value')));
+        if (Arr::get($condition, 'phrase') || Arr::get($condition, 'filter')) {
             $value = '"' . $value . '"';
         }
         if (isset($condition['fuzzy']) && false !== $condition['fuzzy']) {
@@ -138,7 +139,7 @@ class Zend extends \MichelMelo\Search\Index
             $sign = false;
         }
 
-        $field = array_get($condition, 'field');
+        $field = Arr::get($condition, 'field');
         if (empty($field) || '*' === $field) {
             $field = null;
         }
@@ -150,7 +151,7 @@ class Zend extends \MichelMelo\Search\Index
             }
             $value = implode(' OR ', $values);
         } elseif ($field) {
-            $value = trim(array_get($condition, 'field')) . ':(' . $value . ')';
+            $value = trim(Arr::get($condition, 'field')) . ':(' . $value . ')';
         }
 
         $query->addSubquery(\ZendSearch\Lucene\Search\QueryParser::parse($value), $sign);
