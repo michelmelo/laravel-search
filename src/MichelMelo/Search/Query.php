@@ -4,7 +4,7 @@ namespace MichelMelo\Search;
 
 use App;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Input;
+use Illuminate\Support\Facades\Request as Input;
 use Illuminate\Support\Arr;
 
 
