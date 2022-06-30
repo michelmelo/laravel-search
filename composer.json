@@ -1,11 +1,11 @@
 {
     "name": "michelmelo/laravel-search",
-    "description": "A search package for Laravel 5.",
+    "description": "A search package for Laravel 5|6|7",
     "keywords": ["laravel", "search", "lucene", "zendsearch", "elasticsearch", "algolia", "full", "text"],
     "authors": [
         {
-            "name": "Mark Manos",
-            "email": "mark@airpac.com"
+            "name": "Michel Melo",
+            "email": "eu@michelmelo.pt"
         }
     ],
     "require": {
