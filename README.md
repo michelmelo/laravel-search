@@ -1,4 +1,4 @@
-# Search Package for Laravel 5|6|7
+# Search Package for Laravel 5|6|7|8
 
 This package provides a unified API across a variety of different full text search services. It currently supports drivers for [Elasticsearch](http://www.elasticsearch.org/), [Algolia](https://www.algolia.com/), and [ZendSearch](https://github.com/zendframework/ZendSearch) (good for local use).
 
@@ -7,7 +7,7 @@ This package provides a unified API across a variety of different full text sear
 Add this to you composer.json file, in the require object:
 
 ```javascript
-"michelmelo/laravel-search": "0.0.2"
+"michelmelo/laravel-search": "0.0.8"
 ```
 
 After that, run composer install to install the package.
@@ -20,6 +20,15 @@ Add the service provider to `app/config/app.php`, within the `providers` array.
 	'MichelMelo\Search\SearchServiceProvider',
 )
 ```
+OR
+```php
+'providers' => array(
+	// ...
+	MichelMelo\Search\SearchServiceProvider::class,
+)
+```
+
+
 
 Add a class alias to `app/config/app.php`, within the `aliases` array.
 
@@ -37,6 +46,11 @@ Publish the default config file to your application so you can make modification
 ```console
 $ php artisan vendor:publish
 ```
+OR
+```console
+$ php artisan vendor:publish  --provider=MichelMelo\Search\SearchServiceProvider
+```
+
 
 #### Dependencies
 
