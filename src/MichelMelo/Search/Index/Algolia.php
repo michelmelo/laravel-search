@@ -102,22 +102,22 @@ class Algolia extends \MichelMelo\Search\Index
      */
     public function addConditionToQuery($query, array $condition)
     {
-        $value = trim(array_get($condition, 'value'));
-        $field = array_get($condition, 'field');
+        $value = trim(\Arr::get($condition, 'value'));
+        $field = \Arr::get($condition, 'field');
 
         if ('xref_id' == $field) {
             $field = 'objectID';
         }
 
-        if (array_get($condition, 'filter')) {
+        if (\Arr::get($condition, 'filter')) {
             if (is_numeric($value)) {
                 $query['query']['numericFilters'][] = "{$field}={$value}";
             } else {
                 $query['query']['facetFilters'][] = "{$field}:{$value}";
             }
-        } elseif (array_get($condition, 'lat')) {
-            $query['query']['aroundLatLng'] = array_get($condition, 'lat') . ',' . array_get($condition, 'long');
-            $query['query']['aroundRadius'] = array_get($condition, 'distance');
+        } elseif (\Arr::get($condition, 'lat')) {
+            $query['query']['aroundLatLng'] = \Arr::get($condition, 'lat') . ',' . \Arr::get($condition, 'long');
+            $query['query']['aroundRadius'] = \Arr::get($condition, 'distance');
         } else {
             $query['terms'] .= ' ' . $value;
 
@@ -159,17 +159,17 @@ class Algolia extends \MichelMelo\Search\Index
         }
 
         try {
-            $response                                                   = $this->getIndex()->search(array_get($query, 'terms'), array_get($query, 'query'));
-            $this->stored_query_totals[md5(serialize($original_query))] = array_get($response, 'nbHits');
+            $response                                                   = $this->getIndex()->search(\Arr::get($query, 'terms'), \Arr::get($query, 'query'));
+            $this->stored_query_totals[md5(serialize($original_query))] = \Arr::get($response, 'nbHits');
         } catch (\Exception $e) {
             $response = [];
         }
 
         $results = [];
 
-        if (array_get($response, 'hits')) {
-            foreach (array_get($response, 'hits') as $hit) {
-                $hit['id']     = array_get($hit, 'objectID');
+        if (\Arr::get($response, 'hits')) {
+            foreach (\Arr::get($response, 'hits') as $hit) {
+                $hit['id']     = \Arr::get($hit, 'objectID');
                 $hit['_score'] = 1;
                 $results[]     = $hit;
             }
@@ -200,7 +200,7 @@ class Algolia extends \MichelMelo\Search\Index
         }
 
         try {
-            return array_get($this->getIndex()->search(array_get($query, 'terms'), array_get($query, 'query')), 'nbHits');
+            return \Arr::get($this->getIndex()->search(\Arr::get($query, 'terms'), \Arr::get($query, 'query')), 'nbHits');
         } catch (\Exception $e) {
             return 0;
         }
