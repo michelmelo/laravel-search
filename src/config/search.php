@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'zend',
+    'default'       => env('SEARCH_DEFAULT', 'zend'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,9 +39,9 @@ return [
     |
     */
 
-    'connections' => [
+    'connections'   => [
 
-        'zend' => [
+        'zend'          => [
             'driver' => 'zend',
             'path'   => storage_path() . '/search',
         ],
@@ -53,11 +53,11 @@ return [
             ],
         ],
 
-        'algolia' => [
+        'algolia'       => [
             'driver' => 'algolia',
             'config' => [
-                'application_id' => '',
-                'admin_api_key'  => '',
+                'application_id' => env('APPLICATION_ID', ''),
+                'admin_api_key'  => env('ADMIN_API_KEY', ''),
             ],
         ],
 
