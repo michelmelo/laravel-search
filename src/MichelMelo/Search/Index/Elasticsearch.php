@@ -98,8 +98,8 @@ class Elasticsearch extends \MichelMelo\Search\Index
      */
     public function addConditionToQuery($query, array $condition)
     {
-        $value = trim(array_get($condition, 'value'));
-        $field = array_get($condition, 'field', '_all');
+        $value = trim(\Arr::get($condition, 'value'));
+        $field = \Arr::get($condition, 'field', '_all');
 
         if ($field && 'xref_id' == $field) {
             $query['id'] = $value;
@@ -130,7 +130,7 @@ class Elasticsearch extends \MichelMelo\Search\Index
                 'prefix_length' => 2,
                 'fuzziness'     => $fuzziness,
             ];
-        } elseif (array_get($condition, 'lat')) {
+        } elseif (\Arr::get($condition, 'lat')) {
             $definition = [
                 'distance' => $condition['distance'] . 'm',
                 '_geoloc'  => [
@@ -187,9 +187,9 @@ class Elasticsearch extends \MichelMelo\Search\Index
         if (isset($query['id'])) {
             try {
                 $response = $this->getClient()->get([
-                    'index' => array_get($query, 'index'),
+                    'index' => \Arr::get($query, 'index'),
                     'type'  => static::$default_type,
-                    'id'    => array_get($query, 'id'),
+                    'id'    => \Arr::get($query, 'id'),
                 ]);
             } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
                 $response = [];
@@ -203,7 +203,7 @@ class Elasticsearch extends \MichelMelo\Search\Index
 
             $this->stored_query_totals[md5(serialize($original_query))] = 1;
 
-            $parameters = array_get($response, '_source._parameters');
+            $parameters = \Arr::get($response, '_source._parameters');
 
             if (! empty($parameters)) {
                 $parameters = json_decode(base64_decode($parameters), true);
@@ -213,7 +213,7 @@ class Elasticsearch extends \MichelMelo\Search\Index
 
             return [array_merge(
                 [
-                    'id' => array_get($response, '_id'),
+                    'id' => \Arr::get($response, '_id'),
                 ],
                 $parameters
             )];
@@ -221,26 +221,26 @@ class Elasticsearch extends \MichelMelo\Search\Index
 
         try {
             $response                                                   = $this->getClient()->search($query);
-            $this->stored_query_totals[md5(serialize($original_query))] = array_get($response, 'hits.total');
+            $this->stored_query_totals[md5(serialize($original_query))] = \Arr::get($response, 'hits.total');
         } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
             $response = [];
         }
 
         $results = [];
 
-        if (array_get($response, 'hits.hits')) {
-            foreach (array_get($response, 'hits.hits') as $hit) {
+        if (\Arr::get($response, 'hits.hits')) {
+            foreach (\Arr::get($response, 'hits.hits') as $hit) {
                 $fields = [
-                    'id'     => array_get($hit, '_id'),
-                    '_score' => array_get($hit, '_score'),
+                    'id'     => \Arr::get($hit, '_id'),
+                    '_score' => \Arr::get($hit, '_score'),
                 ];
-                $source = array_get($hit, '_source', []);
+                $source = \Arr::get($hit, '_source', []);
 
                 foreach ($source as $name => $value) {
                     $fields[$name] = $value;
                 }
 
-                $parameters = array_get($hit, '_source._parameters');
+                $parameters = \Arr::get($hit, '_source._parameters');
 
                 if (! empty($parameters)) {
                     $parameters = json_decode(base64_decode($parameters), true);
@@ -269,7 +269,7 @@ class Elasticsearch extends \MichelMelo\Search\Index
         }
 
         try {
-            return array_get($this->getClient()->search($query), 'hits.total');
+            return \Arr::get($this->getClient()->search($query), 'hits.total');
         } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
             return 0;
         }
