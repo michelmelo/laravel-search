@@ -15,6 +15,7 @@
     "require-dev": {
         "zendframework/zendsearch": "dev-master",
         "elasticsearch/elasticsearch": "1.0.*@dev",
+        "stechstudio/laravel-php-cs-fixer": "^3.1",
         "algolia/algoliasearch-client-php": "1.1.*"
     },
     "suggest": {
